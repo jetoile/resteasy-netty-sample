@@ -1,0 +1,55 @@
+<configuration>
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n
+            </pattern>
+        </encoder>
+    </appender>
+
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!--<file>/appli/java-reader-poc/log/debug.log</file>-->
+        <file>debug.log</file>
+        <append>true</append>
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{35} - %msg%n</pattern>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>debug-%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
+            <!--<fileNamePattern>/appli/java-reader-poc/log/debug-%d{yyyy-MM-dd}.%i.log</fileNamePattern>-->
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>50MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+            <!-- keep 30 days' worth of history -->
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+    </appender>
+
+    <appender name="PERF" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!--<file>/appli/java-reader-poc/log/perf.log</file>-->
+        <file>perf.log</file>
+        <append>true</append>
+        <encoder>
+            <pattern>%thread;%msg%n</pattern>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>perf-%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
+            <!--<fileNamePattern>/appli/java-reader-poc/log/perf-%d{yyyy-MM-dd}.%i.log</fileNamePattern>-->
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>50MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+            <!-- keep 30 days' worth of history -->
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+    </appender>
+
+    <logger name="PERF_LOGGER" level="debug" >
+        <appender-ref ref="PERF" />
+    </logger>
+
+    <root level="info">
+        <!--<appender-ref ref="FILE" />-->
+        <appender-ref ref="STDOUT" />
+    </root>
+
+
+</configuration>
