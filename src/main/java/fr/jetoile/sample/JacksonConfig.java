@@ -36,8 +36,6 @@ import javax.ws.rs.ext.Provider;
  * User: khanh
  * To change this template use File | Settings | File Templates.
  */
-@Provider
-@Produces(MediaType.APPLICATION_JSON)
 public class JacksonConfig implements ContextResolver<ObjectMapper> {
 
     private final ObjectMapper objectMapper;
