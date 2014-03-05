@@ -57,7 +57,7 @@ public class SimpleService {
     @ApiOperation(value = "repeat the word",
             notes = "response the word",
             response = DtoResponse.class)
-    @ApiResponses(value = {@ApiResponse(code = 500, message = "Internal server error"), @ApiResponse(code = 404, message = "Not found"), @ApiResponse(code = 400, message = "Invalid parameters")})
+    @ApiResponses(value = {@ApiResponse(code = 500, message = "Internal server error")})
     public Response getPortDataSet(
             @PathParam("msg") String message) {
 
@@ -72,9 +72,6 @@ public class SimpleService {
             } catch (Exception e) {
                 log.error("internal error: {}", e);
                 return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
-            }
-            if (response == null) {
-                return Response.status(Response.Status.NOT_FOUND).build();
             }
             return Response.ok(response).build();
         } finally {
