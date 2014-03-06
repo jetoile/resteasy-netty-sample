@@ -25,6 +25,7 @@
         <commons-configuration.version>1.9</commons-configuration.version>
         <resteasy-netty.version>3.0.6.Final</resteasy-netty.version>
         <jackson-core-asl.version>1.9.13</jackson-core-asl.version>
+        <netty4.version>4.0.17.Final</netty4.version>
 
         <slf4j.version>1.6.6</slf4j.version>
         <logback-classic.version>1.0.7</logback-classic.version>
@@ -35,6 +36,12 @@
 
 
     <dependencies>
+        <dependency>
+            <groupId>io.netty</groupId>
+            <artifactId>netty-all</artifactId>
+            <version>${netty4.version}</version>
+        </dependency>
+
         <dependency>
             <groupId>org.jboss.resteasy</groupId>
             <artifactId>jaxrs-api</artifactId>
@@ -76,26 +83,32 @@
 
         <dependency>
             <groupId>org.jboss.resteasy</groupId>
-            <artifactId>resteasy-netty</artifactId>
+            <artifactId>resteasy-netty4</artifactId>
             <version>${resteasy-netty.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.jboss.resteasy</groupId>
-            <artifactId>resteasy-jackson-provider</artifactId>
+            <artifactId>resteasy-jackson2-provider</artifactId>
             <version>${resteasy-netty.version}</version>
         </dependency>
 
-        <dependency>
-            <groupId>org.codehaus.jackson</groupId>
-            <artifactId>jackson-core-asl</artifactId>
-            <version>${jackson-core-asl.version}</version>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.codehaus.jackson</groupId>-->
+            <!--<artifactId>jackson-core-asl</artifactId>-->
+            <!--<version>${jackson-core-asl.version}</version>-->
+        <!--</dependency>-->
+
+        <!--<dependency>-->
+            <!--<groupId>org.codehaus.jackson</groupId>-->
+            <!--<artifactId>jackson-mapper-asl</artifactId>-->
+            <!--<version>${jackson-core-asl.version}</version>-->
+        <!--</dependency>-->
 
         <dependency>
-            <groupId>org.codehaus.jackson</groupId>
-            <artifactId>jackson-mapper-asl</artifactId>
-            <version>${jackson-core-asl.version}</version>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-joda</artifactId>
+            <version>2.3.2</version>
         </dependency>
 
         <dependency>

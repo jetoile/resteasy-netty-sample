@@ -28,11 +28,11 @@ import com.codahale.metrics.MetricRegistry;
 import com.google.common.collect.Lists;
 import com.wordnik.swagger.jaxrs.config.BeanConfig;
 import fr.jetoile.sample.exception.BootstrapException;
+import fr.jetoile.sample.resteasy.MyNettyJaxrsServer;
 import fr.jetoile.sample.service.SimpleService;
 import org.apache.commons.configuration.Configuration;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
-import org.jboss.resteasy.plugins.server.netty.NettyJaxrsServer;
 import org.jboss.resteasy.spi.ResteasyDeployment;
 import org.jboss.resteasy.test.TestPortProvider;
 import org.jolokia.jvmagent.JolokiaServer;
@@ -108,8 +108,10 @@ public class Client {
         }
 
         deployment.setResources(Arrays.<Object>asList(service));
+//        deployment.ad
 
-        NettyJaxrsServer netty = new NettyJaxrsServer();
+        MyNettyJaxrsServer netty = new MyNettyJaxrsServer();
+
         netty.setDeployment(deployment);
         netty.setPort(nettyPort);
         netty.setRootResourcePath("");

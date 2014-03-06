@@ -21,39 +21,23 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package fr.jetoile.sample;
 
+package fr.jetoile.sample.resteasy;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.datatype.joda.JodaModule;
-
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.ext.ContextResolver;
-import javax.ws.rs.ext.Provider;
+import io.netty.channel.ChannelHandlerContext;
+import io.netty.channel.SimpleChannelInboundHandler;
+import org.jboss.resteasy.plugins.server.netty.NettyHttpRequest;
 
 /**
  * User: khanh
  * To change this template use File | Settings | File Templates.
  */
-@Provider
-@Produces(MediaType.APPLICATION_JSON)
-public class JacksonConfig implements ContextResolver<ObjectMapper> {
+public class CorsHeadersChannelHandler extends SimpleChannelInboundHandler<NettyHttpRequest> {
+    protected void channelRead0(ChannelHandlerContext ctx, NettyHttpRequest request) throws Exception {
+        request.getResponse().getOutputHeaders().add("Access-Control-Allow-Origin", "*");
+        request.getResponse().getOutputHeaders().add("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS");
+        request.getResponse().getOutputHeaders().add("Access-Control-Allow-Headers", "X-Requested-With, Content-Type, Content-Length");
 
-    private final ObjectMapper objectMapper;
-
-    public JacksonConfig() {
-        objectMapper = new ObjectMapper();
-        objectMapper.registerModule(new JodaModule());
-        objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
-        objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+        ctx.fireChannelRead(request);
     }
-
-    @Override
-    public ObjectMapper getContext(Class<?> objectType) {
-        return objectMapper;
-    }
-
 }
