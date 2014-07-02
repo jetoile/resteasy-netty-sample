@@ -23,9 +23,9 @@
         <joda-time.version>2.3</joda-time.version>
         <commons-io.version>2.4</commons-io.version>
         <commons-configuration.version>1.9</commons-configuration.version>
-        <resteasy-netty.version>3.0.6.Final</resteasy-netty.version>
+        <resteasy-netty.version>3.0.8.Final</resteasy-netty.version>
         <jackson-core-asl.version>1.9.13</jackson-core-asl.version>
-        <netty4.version>4.0.17.Final</netty4.version>
+        <netty4.version>4.0.21.Final</netty4.version>
 
         <slf4j.version>1.6.6</slf4j.version>
         <logback-classic.version>1.0.7</logback-classic.version>
@@ -85,6 +85,18 @@
             <groupId>org.jboss.resteasy</groupId>
             <artifactId>resteasy-netty4</artifactId>
             <version>${resteasy-netty.version}</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>commons-logging</artifactId>
+                    <groupId>commons-logging</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>jcl-over-slf4j</artifactId>
+            <version>${slf4j.version}</version>
         </dependency>
 
         <dependency>
@@ -92,18 +104,6 @@
             <artifactId>resteasy-jackson2-provider</artifactId>
             <version>${resteasy-netty.version}</version>
         </dependency>
-
-        <!--<dependency>-->
-            <!--<groupId>org.codehaus.jackson</groupId>-->
-            <!--<artifactId>jackson-core-asl</artifactId>-->
-            <!--<version>${jackson-core-asl.version}</version>-->
-        <!--</dependency>-->
-
-        <!--<dependency>-->
-            <!--<groupId>org.codehaus.jackson</groupId>-->
-            <!--<artifactId>jackson-mapper-asl</artifactId>-->
-            <!--<version>${jackson-core-asl.version}</version>-->
-        <!--</dependency>-->
 
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>

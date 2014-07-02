@@ -6,9 +6,12 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+import io.netty.handler.codec.http.HttpMethod;
 import io.netty.handler.codec.http.HttpObjectAggregator;
 import io.netty.handler.codec.http.HttpRequestDecoder;
 import io.netty.handler.codec.http.HttpResponseEncoder;
+import io.netty.handler.codec.http.cors.CorsConfig;
+import io.netty.handler.codec.http.cors.CorsHandler;
 import io.netty.handler.ssl.SslHandler;
 import io.netty.util.concurrent.EventExecutor;
 import org.jboss.resteasy.core.SynchronousDispatcher;
@@ -73,6 +76,12 @@ public class MyNettyJaxrsServer extends NettyJaxrsServer {
         eventExecutor = new NioEventLoopGroup(executorThreadCount);
         deployment.start();
         final RequestDispatcher dispatcher = new RequestDispatcher((SynchronousDispatcher)deployment.getDispatcher(), deployment.getProviderFactory(), domain);
+        final CorsHandler corsHandler = new CorsHandler(CorsConfig
+                .withOrigin("*")
+                .allowNullOrigin()
+                .allowedRequestHeaders("X-Requested-With, Content-Type, Content-Length")
+                .allowedRequestMethods(HttpMethod.GET, HttpMethod.POST, HttpMethod.PUT, HttpMethod.DELETE, HttpMethod.OPTIONS).build());
+
         // Configure the server.
         if (sslContext == null) {
             bootstrap.group(eventLoopGroup)
@@ -80,11 +89,14 @@ public class MyNettyJaxrsServer extends NettyJaxrsServer {
                     .childHandler(new ChannelInitializer<SocketChannel>() {
                         @Override
                         public void initChannel(SocketChannel ch) throws Exception {
+
+
                             ch.pipeline().addLast(new HttpRequestDecoder());
                             ch.pipeline().addLast(new HttpObjectAggregator(maxRequestSize));
                             ch.pipeline().addLast(new HttpResponseEncoder());
+                            ch.pipeline().addLast(corsHandler);
                             ch.pipeline().addLast(new RestEasyHttpRequestDecoder(dispatcher.getDispatcher(), root, RestEasyHttpRequestDecoder.Protocol.HTTP));
-                            ch.pipeline().addLast(new CorsHeadersChannelHandler());
+
                             ch.pipeline().addLast(new RestEasyHttpResponseEncoder(dispatcher));
                             ch.pipeline().addLast(eventExecutor, new RequestHandler(dispatcher));
                         }
@@ -103,8 +115,10 @@ public class MyNettyJaxrsServer extends NettyJaxrsServer {
                             ch.pipeline().addLast(new HttpRequestDecoder());
                             ch.pipeline().addLast(new HttpObjectAggregator(maxRequestSize));
                             ch.pipeline().addLast(new HttpResponseEncoder());
+                            ch.pipeline().addLast(corsHandler);
+
                             ch.pipeline().addLast(new RestEasyHttpRequestDecoder(dispatcher.getDispatcher(), root, RestEasyHttpRequestDecoder.Protocol.HTTPS));
-                            ch.pipeline().addLast(new CorsHeadersChannelHandler());
+                            ch.pipeline().addLast(new CorsHandler(CorsConfig.withAnyOrigin().build()));
                             ch.pipeline().addLast(new RestEasyHttpResponseEncoder(dispatcher));
                             ch.pipeline().addLast(eventExecutor, new RequestHandler(dispatcher));
                         }
