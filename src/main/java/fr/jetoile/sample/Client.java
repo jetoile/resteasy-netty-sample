@@ -33,6 +33,7 @@ import fr.jetoile.sample.service.SimpleService;
 import org.apache.commons.configuration.Configuration;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
+import org.jboss.resteasy.plugins.server.netty.NettyJaxrsServer;
 import org.jboss.resteasy.spi.ResteasyDeployment;
 import org.jboss.resteasy.test.TestPortProvider;
 import org.jolokia.jvmagent.JolokiaServer;
@@ -110,7 +111,7 @@ public class Client {
         deployment.setResources(Arrays.<Object>asList(service));
 //        deployment.ad
 
-        MyNettyJaxrsServer netty = new MyNettyJaxrsServer();
+        NettyJaxrsServer netty = new NettyJaxrsServer();
 
         netty.setDeployment(deployment);
         netty.setPort(nettyPort);
@@ -127,7 +128,8 @@ public class Client {
         swaggerConfig.setScan(true);
         swaggerConfig.setResourcePackage("fr.jetoile.sample.service");
 
-        deployment.setProviderClasses(Lists.newArrayList("fr.jetoile.sample.JacksonConfig",
+//        deployment.setProviderClasses(Lists.newArrayList("fr.jetoile.sample.JacksonConfig",
+        deployment.setProviderClasses(Lists.newArrayList(
                 "com.wordnik.swagger.jaxrs.listing.ResourceListingProvider",
                 "com.wordnik.swagger.jaxrs.listing.ApiDeclarationProvider"));
         deployment.setResourceClasses(Lists.newArrayList("com.wordnik.swagger.jaxrs.listing.ApiListingResourceJSON"));

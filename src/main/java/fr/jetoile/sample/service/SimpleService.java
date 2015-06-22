@@ -38,6 +38,8 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import java.time.LocalDateTime;
+
 import static com.codahale.metrics.MetricRegistry.name;
 
 /**
@@ -68,7 +70,7 @@ public class SimpleService {
             DtoResponse response = new DtoResponse();
             try {
                 response.setMessage(message);
-                response.setTime(DateTime.now());
+                response.setTime(LocalDateTime.now());
             } catch (Exception e) {
                 log.error("internal error: {}", e);
                 return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();

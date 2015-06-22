@@ -23,15 +23,19 @@
  */
 package fr.jetoile.sample.dto;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import fr.jetoile.sample.serializer.LocalDateTimeToStringSerializer;
 import org.joda.time.DateTime;
 
 import javax.xml.bind.annotation.XmlRootElement;
+import java.time.LocalDateTime;
 
 @XmlRootElement
 public class DtoResponse {
 
     private String message;
-    private DateTime time;
+    @JsonSerialize(using = LocalDateTimeToStringSerializer.class)
+    private LocalDateTime time;
 
     public DtoResponse() {
     }
@@ -44,11 +48,11 @@ public class DtoResponse {
         this.message = message;
     }
 
-    public DateTime getTime() {
+    public LocalDateTime getTime() {
         return time;
     }
 
-    public void setTime(DateTime time) {
+    public void setTime(LocalDateTime time) {
         this.time = time;
     }
 }
