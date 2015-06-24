@@ -25,10 +25,7 @@ package fr.jetoile.sample;
 
 import com.codahale.metrics.JmxReporter;
 import com.codahale.metrics.MetricRegistry;
-import com.google.common.collect.Lists;
-import com.wordnik.swagger.jaxrs.config.BeanConfig;
 import fr.jetoile.sample.exception.BootstrapException;
-import fr.jetoile.sample.resteasy.MyNettyJaxrsServer;
 import fr.jetoile.sample.service.SimpleService;
 import org.apache.commons.configuration.Configuration;
 import org.apache.commons.configuration.ConfigurationException;
@@ -93,8 +90,6 @@ public class Client {
         SimpleService service = new SimpleService();
         ResteasyDeployment deployment = new ResteasyDeployment();
 
-        initSwagger(deployment);
-
         int nettyPort = 8081;
 
         if (config != null) {
@@ -109,7 +104,6 @@ public class Client {
         }
 
         deployment.setResources(Arrays.<Object>asList(service));
-//        deployment.ad
 
         NettyJaxrsServer netty = new NettyJaxrsServer();
 
@@ -120,21 +114,6 @@ public class Client {
         netty.start();
     }
 
-    private static void initSwagger(ResteasyDeployment deployment) {
-        BeanConfig swaggerConfig = new BeanConfig();
-        swaggerConfig.setVersion(config.getString("swagger.version", "1.0.0"));
-        swaggerConfig.setBasePath("http://" + config.getString("swagger.host", "localhost") + ":" + config.getString("swagger.port", "8081"));
-        swaggerConfig.setTitle(config.getString("swagger.title", "jetoile sample app"));
-        swaggerConfig.setScan(true);
-        swaggerConfig.setResourcePackage("fr.jetoile.sample.service");
-
-//        deployment.setProviderClasses(Lists.newArrayList("fr.jetoile.sample.JacksonConfig",
-        deployment.setProviderClasses(Lists.newArrayList(
-                "com.wordnik.swagger.jaxrs.listing.ResourceListingProvider",
-                "com.wordnik.swagger.jaxrs.listing.ApiDeclarationProvider"));
-        deployment.setResourceClasses(Lists.newArrayList("com.wordnik.swagger.jaxrs.listing.ApiListingResourceJSON"));
-        deployment.setSecurityEnabled(false);
-    }
 }
 
 
