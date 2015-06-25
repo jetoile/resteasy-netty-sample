@@ -46,9 +46,9 @@ import java.util.HashMap;
  * User: khanh
  * To change this template use File | Settings | File Templates.
  */
-public class Client {
+public class Main {
 
-    private final static Logger LOGGER = LoggerFactory.getLogger(Client.class);
+    private final static Logger LOGGER = LoggerFactory.getLogger(Main.class);
 
     public static final String CONF_PROPERTIES = "conf.properties";
 
@@ -59,7 +59,7 @@ public class Client {
     public static void main(String[] args) throws ConfigurationException, UnknownHostException, BootstrapException {
 
         try {
-            config = new PropertiesConfiguration(Client.CONF_PROPERTIES);
+            config = new PropertiesConfiguration(Main.CONF_PROPERTIES);
 
         } catch (ConfigurationException e) {
             throw new BootstrapException("bad config", e);

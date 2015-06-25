@@ -28,9 +28,8 @@ import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 import com.wordnik.swagger.annotations.ApiResponse;
 import com.wordnik.swagger.annotations.ApiResponses;
-import fr.jetoile.sample.Client;
+import fr.jetoile.sample.Main;
 import fr.jetoile.sample.dto.DtoResponse;
-import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -62,7 +61,7 @@ public class SimpleService {
     @ApiResponses(value = {@ApiResponse(code = 500, message = "Internal server error"), @ApiResponse(code = 404, message = "Not found"), @ApiResponse(code = 400, message = "Invalid parameters")})
     public Response sayHello(@PathParam("msg") String message) {
 
-        final Timer timer = Client.metricRegistry.timer(name(SimpleService.class, "say-service"));
+        final Timer timer = Main.metricRegistry.timer(name(SimpleService.class, "say-service"));
         final Timer.Context context = timer.time();
         try {
 
